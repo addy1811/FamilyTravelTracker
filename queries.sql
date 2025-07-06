@@ -1,120 +1,435 @@
-CREATE TABLE student (
-  id SERIAL PRIMARY KEY,
-  first_name TEXT,
-  last_name TEXT
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: countries; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.countries (
+    id integer NOT NULL,
+    country_code character(2),
+    country_name character varying(100)
 );
 
--- One to One --
-CREATE TABLE contact_detail (
-  id INTEGER REFERENCES student(id) UNIQUE,
-  tel TEXT,
-  address TEXT
+
+ALTER TABLE public.countries OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.countries_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.countries_id_seq OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.countries_id_seq OWNED BY public.countries.id;
+
+
+--
+-- Name: countries id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.countries ALTER COLUMN id SET DEFAULT nextval('public.countries_id_seq'::regclass);
+
+
+--
+-- Name: countries countries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.countries
+    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: capitals; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.capitals (
+    id integer NOT NULL,
+    country character varying(45),
+    capital character varying(45)
 );
 
--- Data --
-INSERT INTO student (first_name, last_name)
-VALUES ('Angela', 'Yu');
-INSERT INTO contact_detail (id, tel, address)
-VALUES (1, '+123456789', '123 App Brewery Road');
 
--- Join --
-SELECT * 
-FROM student
-JOIN contact_detail
-ON student.id = contact_detail.id
+ALTER TABLE public.capitals OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: capitals_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.capitals_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
--- Many to One --
-CREATE TABLE homework_submission (
-  id SERIAL PRIMARY KEY,
-  mark INTEGER,
-  student_id INTEGER REFERENCES student(id)
+ALTER SEQUENCE public.capitals_id_seq OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: capitals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.capitals_id_seq OWNED BY public.capitals.id;
+
+
+--
+-- Name: capitals id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.capitals ALTER COLUMN id SET DEFAULT nextval('public.capitals_id_seq'::regclass);
+
+
+--
+-- Name: capitals capitals_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.capitals
+    ADD CONSTRAINT capitals_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: flags; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.flags (
+    id integer NOT NULL,
+    name text,
+    flag text
 );
 
--- Data --
-INSERT INTO homework_submission (mark, student_id)
-VALUES (98, 1), (87, 1), (88, 1)
 
--- Join --
-SELECT *
-FROM student
-JOIN homework_submission
-ON student.id = student_id
+ALTER TABLE public.flags OWNER TO family_travel_tracker_db_p9ll_user;
 
-SELECT student.id, first_name, last_name, mark
-FROM student
-JOIN homework_submission
-ON student.id = student_id
+--
+-- Name: flags_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
 
--- Many to Many --
-CREATE TABLE class (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(45)
+CREATE SEQUENCE public.flags_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.flags_id_seq OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: flags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.flags_id_seq OWNED BY public.flags.id;
+
+
+--
+-- Name: flags id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.flags ALTER COLUMN id SET DEFAULT nextval('public.flags_id_seq'::regclass);
+
+
+--
+-- Name: flags flags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.flags
+    ADD CONSTRAINT flags_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying(15) NOT NULL,
+    color character varying(15)
 );
 
-CREATE TABLE enrollment (
-  student_id INTEGER REFERENCES student(id),
-  class_id INTEGER REFERENCES class(id),
-  PRIMARY KEY (student_id, class_id)
+
+ALTER TABLE public.users OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: users users_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_name_key UNIQUE (name);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: visited_countries; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.visited_countries (
+    id integer NOT NULL,
+    country_code character(2) NOT NULL,
+    user_id integer
 );
 
--- Data --
-INSERT INTO student (first_name, last_name)
-VALUES ('Jack', 'Bauer');
 
-INSERT INTO class (title)
-VALUES ('English Literature'), ('Maths'), ('Physics');
+ALTER TABLE public.visited_countries OWNER TO family_travel_tracker_db_p9ll_user;
 
-INSERT INTO enrollment (student_id, class_id ) VALUES (1, 1), (1, 2);
-INSERT INTO enrollment (student_id ,class_id) VALUES (2, 2), (2, 3);
+--
+-- Name: visited_countries_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
 
--- Join --
-SELECT *
-FROM enrollment 
-JOIN student ON student.id = enrollment.student_id
-JOIN class ON class.id = enrollment.class_id;
-
-SELECT student.id AS id, first_name, last_name, title
-FROM enrollment 
-JOIN student ON student.id = enrollment.student_id
-JOIN class ON class.id = enrollment.class_id;
-
--- ALIAS --
-SELECT s.id AS id, first_name, last_name, title
-FROM enrollment AS e
-JOIN student AS s ON s.id = e.student_id
-JOIN class AS c ON c.id = e.class_id;
+CREATE SEQUENCE public.visited_countries_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
-SELECT s.id AS id, first_name, last_name, title
-FROM enrollment e
-JOIN student s ON s.id = e.student_id
-JOIN class c ON c.id = e.class_id;
+ALTER SEQUENCE public.visited_countries_id_seq OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: visited_countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.visited_countries_id_seq OWNED BY public.visited_countries.id;
 
 
--- EXERCISE SOLUTION AND SETUP --
+--
+-- Name: visited_countries id; Type: DEFAULT; Schema: public; Owner: postgres
+--
 
-DROP TABLE IF EXISTS visited_countries, users;
+ALTER TABLE ONLY public.visited_countries ALTER COLUMN id SET DEFAULT nextval('public.visited_countries_id_seq'::regclass);
 
-CREATE TABLE users(
-id SERIAL PRIMARY KEY,
-name VARCHAR(15) UNIQUE NOT NULL,
-color VARCHAR(15)
+
+--
+-- Name: visited_countries visited_countries_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.visited_countries
+    ADD CONSTRAINT visited_countries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visited_countries visited_countries_user_id_country_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.visited_countries
+    ADD CONSTRAINT visited_countries_user_id_country_code_key UNIQUE (user_id, country_code);
+
+
+--
+-- Name: visited_countries visited_countries_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.visited_countries
+    ADD CONSTRAINT visited_countries_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: world_food; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.world_food (
+    id integer NOT NULL,
+    country character varying(45),
+    rice_production double precision,
+    wheat_production double precision
 );
 
-CREATE TABLE visited_countries(
-id SERIAL PRIMARY KEY,
-country_code CHAR(2) NOT NULL,
-user_id INTEGER REFERENCES users(id)
-);
 
-INSERT INTO users (name, color)
-VALUES ('Angela', 'teal'), ('Jack', 'powderblue');
+ALTER TABLE public.world_food OWNER TO family_travel_tracker_db_p9ll_user;
 
-INSERT INTO visited_countries (country_code, user_id)
-VALUES ('FR', 1), ('GB', 1), ('CA', 2), ('FR', 2 );
+--
+-- Name: world_food_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
 
-SELECT *
-FROM visited_countries
-JOIN users
-ON users.id = user_id;
+CREATE SEQUENCE public.world_food_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.world_food_id_seq OWNER TO family_travel_tracker_db_p9ll_user;
+
+--
+-- Name: world_food_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.world_food_id_seq OWNED BY public.world_food.id;
+
+
+--
+-- Name: world_food id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.world_food ALTER COLUMN id SET DEFAULT nextval('public.world_food_id_seq'::regclass);
+
+
+--
+-- Name: world_food world_food_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.world_food
+    ADD CONSTRAINT world_food_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
